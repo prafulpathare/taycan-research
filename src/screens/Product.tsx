@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Product as PData } from "../shared/interfaces/Product";
-import { products } from "../shared/data";
 
 const Product = () => {
 
@@ -16,7 +15,11 @@ const Product = () => {
 
     const loadProduct = () => {
         if (id) {
-            setProduct(products.find((product: PData) => product.id === id) || null);
+            fetch('/products.json')
+                .then((res) => res.json())
+                .then((data: PData[]) => {
+                    setProduct(data.find((product: PData) => product.id === id) || null);
+                })
         }
     }
 
